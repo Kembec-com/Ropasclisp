@@ -81,7 +81,11 @@
 		@apply flex flex-col;
 	}
 	#game > :deep(section) {
-		@apply px-5 lg:px-[10dvw] xl:px-[15dvw] py-5 lg:py-10;
+		@apply lg:min-h-[calc(100dvh-6.5rem)] min-h-[calc(100dvh-5rem)];
+		@apply px-5 lg:px-[10dvw] xl:px-[15dvw] py-5 lg:py-10 flex flex-col;
+	}
+	#game > :deep(section) > * {
+		@apply first:mt-auto last:mb-auto;
 	}
 
 	.help {

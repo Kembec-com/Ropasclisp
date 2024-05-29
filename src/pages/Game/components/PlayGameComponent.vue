@@ -282,16 +282,16 @@
 	}
 
 	.footer {
-		@apply col-span-full flex flex-col space-y-5;
+		@apply col-span-full flex flex-col;
 	}
 	.footer > button {
 		@apply mx-auto rounded-sm px-10 font-bold drop-shadow-md  transition-all;
 	}
 	#play-game {
-		@apply bg-white py-3 text-3xl text-slate-900 hover:bg-white/90 lg:text-4xl hover:tracking-wider;
+		@apply mb-5 bg-white py-3 text-3xl text-slate-900 hover:bg-white/90 lg:text-4xl hover:tracking-wider;
 	}
 	#select-players {
-		@apply border-2 border-white py-2 text-sm tracking-wider text-white lg:text-base hover:tracking-widest;
+		@apply mb-10 border-2 border-white py-2 text-sm tracking-wider text-white lg:text-base hover:tracking-widest;
 	}
 
 	.hand-enter-active,
