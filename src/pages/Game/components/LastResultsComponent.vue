@@ -9,7 +9,7 @@
 	}
 
 	//Prop
-	const prop = defineProps<Props>();
+	// const prop = defineProps<Props>();
 
 	//Emit
 	const emit = defineEmits<Emits>();
@@ -24,11 +24,18 @@
 	<div class="last-results">
 		<div class="title">
 			<b>Last Results</b>
-			<button id="clear-last-results" @click="clearLocalStorage()">
+			<button
+				id="clear-last-results"
+				@click="clearLocalStorage()"
+			>
 				<font-awesome-icon icon="fa solid fa-eraser" />
 			</button>
 		</div>
-		<div v-for="(l, i) in lastResults.reverse()" :key="i" class="result">
+		<div
+			v-for="(l, i) in lastResults.reverse()"
+			:key="i"
+			class="result"
+		>
 			<div class="player">{{ l.p1 }}</div>
 			<div class="vs">vs</div>
 			<div class="player">{{ l.p2 }}</div>
@@ -38,7 +45,7 @@
 			<div class="icon">
 				<font-awesome-icon :icon="'fa-regular ' + l.choice2" />
 			</div>
-			<div class="message"> {{ l.message }}</div>
+			<div class="message">{{ l.message }}</div>
 		</div>
 	</div>
 </template>

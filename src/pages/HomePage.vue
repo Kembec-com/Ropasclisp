@@ -1,5 +1,4 @@
 <script setup lang="ts">
-	import { defineComponent, ref } from "vue";
 	import { Choice } from "./Game/constants/ChoiceEnum";
 </script>
 <template>
@@ -115,7 +114,11 @@
 				<span class="lose title">Spock</span>
 			</div>
 		</div>
-		<RouterLink class="play-game" to="/game">Play Game</RouterLink>
+		<RouterLink
+			class="play-game"
+			to="/game"
+			>Play Game</RouterLink
+		>
 	</div>
 </template>
 <style lang="postcss" scoped>

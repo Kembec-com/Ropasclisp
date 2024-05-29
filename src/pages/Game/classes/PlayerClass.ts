@@ -2,22 +2,26 @@ import { Choice } from "../constants/ChoiceEnum";
 import type PlayerInterface from "../interfaces/PlayerInterface";
 
 export class Player implements PlayerInterface {
-	name: string;
-	choice: Choice;
+	public name: string;
+	public choice: Choice;
 
 	constructor(name?: string, choice?: Choice) {
-        if(!name) {
-            name = "BOT";
-        }
-        if(!choice || name == "BOT") {
-            choice = this.getRandomChoice();
-        }
-		this.name = name;
-		this.choice = choice;
+		let setName = name;
+		let setChoice = choice;
+
+		if (!setName) {
+			setName = "BOT";
+		}
+		if (!setChoice || setName === "BOT") {
+			setChoice = this.getRandomChoice();
+		}
+		this.name = setName;
+		this.choice = setChoice;
 	}
 
-	getRandomChoice(): Choice {
-		const choices = Object.values(Choice);
+	public getRandomChoice(): Choice {
+		const choices: Choice[] = Object.keys(Choice).map((key) => Choice[key as keyof typeof Choice]);
+
 		return choices[Math.floor(Math.random() * choices.length)];
 	}
 }

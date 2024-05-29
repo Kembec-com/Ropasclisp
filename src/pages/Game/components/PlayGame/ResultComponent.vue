@@ -1,5 +1,6 @@
 <script setup lang="ts">
-	import { ref, onMounted } from "vue";
+	import { onMounted, ref } from "vue";
+
 	import type { Choice } from "../../constants/ChoiceEnum";
 
 	export interface Props {
@@ -11,12 +12,15 @@
 		(event: "close"): void;
 	}
 	// Props
-	const prop = defineProps<Props>();
+	const props = defineProps<Props>();
 	// Emits
 	const emit = defineEmits<Emits>();
 
 	// Data
 	const contentElement = ref<HTMLDivElement | null>(null);
+
+	const p1Choice = props.p1Choice;
+	const p2Choice = props.p2Choice;
 
 	// Mounted
 	onMounted(() => {
@@ -25,16 +29,18 @@
 
 	// Methods
 	function runContentElement(): void {
-		 // select the .content element and set it to contentElement
+		// select the .content element and set it to contentElement
 		contentElement.value = document.querySelector(".content");
-		 // if contentElement and its parent element exist
+		// if contentElement and its parent element exist
 		if (contentElement.value && contentElement.value.parentElement) {
 			// add a click event listener to the parent element that runs the clickOutside function
-			contentElement.value.parentElement.addEventListener("click", clickOutside); 
+			contentElement.value.parentElement.addEventListener("click", clickOutside);
 		}
 	}
-	function clickOutside(event: MouseEvent): void { // clickOutside function runs when the parent element is clicked
-		if (!contentElement.value?.contains(event.target as Node)) { // if the click was not on the contentElement
+	function clickOutside(event: MouseEvent): void {
+		// clickOutside function runs when the parent element is clicked
+		if (!contentElement.value?.contains(event.target as Node)) {
+			// if the click was not on the contentElement
 			return emit("close");
 		}
 	}

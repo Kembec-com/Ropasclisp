@@ -1,0 +1,32 @@
+{
+	"root": true,
+	"extends": [
+		"plugin:vue/vue3-essential",
+		"plugin:@typescript-eslint/recommended",
+		"@kembec/eslint-config/typescript"
+	],
+	"overrides": [
+		{
+			"files": ["src/**/*.ts", "src/**/*.tsx"],
+			"parserOptions": {
+				"project": ["./tsconfig.app.json"]
+			}
+		},
+		{
+			"files": ["cypress.config.ts", "vite.config.ts", "vitest.config.ts", "playwright.config.ts"],
+			"parserOptions": {
+				"project": "./tsconfig.config.json"
+			}
+		}
+	],
+	"parser": "vue-eslint-parser",
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser",
+		"extraFileExtensions": [".vue"]
+	},
+	"settings": {
+		"import/resolver": {
+			"typescript": {}
+		}
+	}
+}

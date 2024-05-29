@@ -7,8 +7,18 @@
 <template>
 	<h1>Start Game</h1>
 	<div class="types">
-		<button id="play-1-player" @click="emit('selectPlayers', 1)">1 Player</button>
-		<button id="play-2-player" @click="emit('selectPlayers', 2)">2 Players</button>
+		<button
+			id="play-1-player"
+			@click="emit('selectPlayers', 1)"
+		>
+			1 Player
+		</button>
+		<button
+			id="play-2-player"
+			@click="emit('selectPlayers', 2)"
+		>
+			2 Players
+		</button>
 	</div>
 </template>
 <style lang="postcss" scoped>

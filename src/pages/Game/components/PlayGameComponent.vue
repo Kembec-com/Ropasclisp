@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 	import { computed, onMounted, ref } from "vue";
+
 	import { Game } from "../classes/GameClass";
 	import { Choice } from "../constants/ChoiceEnum";
 	import Result from "./PlayGame/ResultComponent.vue";
@@ -29,7 +30,7 @@
 
 	// Mounted
 	onMounted(() => {
-		if (prop.players == 2) {
+		if (prop.players === 2) {
 			// if there are 2 players
 			player2Name.value = "Player 2"; // set player 2's name
 		}
@@ -38,31 +39,35 @@
 
 	// Computed
 	const p1choice = computed<Choice | null>(() => {
-		if (turn.value != 1) {
+		if (turn.value !== 1) {
 			return null;
 		}
+
 		return player1Choice.value;
 	});
 	const p2choice = computed<Choice | null>(() => {
-		if (turn.value != 2 || !player2Choice.value) {
+		if (turn.value !== 2 || !player2Choice.value) {
 			return null;
 		}
+
 		return player2Choice.value;
 	});
 	const buttonText = computed<string>(() => {
-		if (turn.value == 1 && prop.players == 2) {
+		if (turn.value === 1 && prop.players === 2) {
 			// if it is player 1's turn and there are 2 players
 			return "Next Player";
 		}
+
 		return "Play Game";
 	});
 
 	// Methods
 	function startGame(): void {
-		if (prop.players == 2 && turn.value == 1) {
+		if (prop.players === 2 && turn.value === 1) {
 			// if there are 2 players and it is player 1's turn
 			turn.value = 2;
-			player2Name.value == "Player 2" ? focusAndSelect("player_2") : null;
+			player2Name.value === "Player 2" ? focusAndSelect("player_2") : null;
+
 			return;
 		}
 		const game = new Game(player1Name.value, player1Choice.value, player2Name.value, player2Choice.value);
@@ -70,7 +75,7 @@
 		player1Choice.value = game.player1.choice;
 		player2Name.value = game.player2.name;
 		player2Choice.value = game.player2.choice;
-		
+
 		// create a new Game with the given player names and choices
 		resultMessage.value = `The winner is: ${game.play()}`;
 		saveResult();
@@ -83,13 +88,14 @@
 		resultMessage.value = "";
 	}
 	function changeName(event: Event | null | undefined, player: 1 | 2): void {
-		if (!event || (player == 2 && prop.players != 2)) {
+		if (!event || (player === 2 && prop.players !== 2)) {
 			// if there is no event or if it is player 2's turn and there is only 1 player
 			return;
 		}
 		const playerName = (event.target as HTMLInputElement).textContent; // get the player name from the event target
-		if (player == 1) {
+		if (player === 1) {
 			player1Name.value = playerName ?? "Player 1";
+
 			return;
 		}
 		player2Name.value = playerName ?? "Player 2";
@@ -99,8 +105,8 @@
 		if (!localStorage.result) {
 			localStorage.result = JSON.stringify([]);
 		}
-		let result = JSON.parse(localStorage.result);
-		let data = {
+		const result = JSON.parse(localStorage.result);
+		const data = {
 			p1: player1Name.value,
 			choice1: player1Choice.value,
 			p2: player2Name.value,
@@ -130,34 +136,84 @@
 
 <template>
 	<div class="play-game">
-		<div class="player_1" :class="turn == 1 ? 'on' : 'off'">
-			<h1 id="player_1" contenteditable="true" @input="changeName($event, 1)">{{ player1Name }}</h1>
-			<div class="selected-hand" :show="p1choice">
+		<div
+			class="player_1"
+			:class="turn === 1 ? 'on' : 'off'"
+		>
+			<h1
+				id="player_1"
+				contenteditable="true"
+				@input="changeName($event, 1)"
+			>
+				{{ player1Name }}
+			</h1>
+			<div
+				class="selected-hand"
+				:show="p1choice"
+			>
 				<font-awesome-icon :icon="'fa-regular ' + (p1choice ?? 'fa-hand-peace')" />
 			</div>
 			<div class="hands">
-				<button :content="h" v-for="(h, n) in Choice" :key="n" @click="player1Choice = h">
+				<button
+					:content="h"
+					v-for="(h, n) in Choice"
+					:key="n"
+					@click="player1Choice = h"
+				>
 					<font-awesome-icon :icon="'fa-regular ' + h" />
 				</button>
 			</div>
 		</div>
-		<div class="player_2" :class="turn == 2 ? 'on' : 'off'">
-			<h1 id="player_2" :contenteditable="players === 2" @input="changeName($event, 2)">{{ player2Name }}</h1>
-			<div class="selected-hand" :show="p2choice">
+		<div
+			class="player_2"
+			:class="turn === 2 ? 'on' : 'off'"
+		>
+			<h1
+				id="player_2"
+				:contenteditable="players === 2"
+				@input="changeName($event, 2)"
+			>
+				{{ player2Name }}
+			</h1>
+			<div
+				class="selected-hand"
+				:show="p2choice"
+			>
 				<font-awesome-icon :icon="'fa-regular ' + (p2choice ?? 'fa-hand-peace')" />
 			</div>
 			<div class="hands">
-				<button :content="h" v-for="(h, n) in Choice" :key="n" @click="player2Name ? (player2Choice = h) : null">
+				<button
+					:content="h"
+					v-for="(h, n) in Choice"
+					:key="n"
+					@click="player2Name ? (player2Choice = h) : null"
+				>
 					<font-awesome-icon :icon="'fa-regular ' + h" />
 				</button>
 			</div>
 		</div>
 		<div class="footer">
-			<button id="play-game" @click="startGame()"> {{ buttonText }} </button>
-			<button id="select-players" @click="selectPlayers()"> Select Players </button>
+			<button
+				id="play-game"
+				@click="startGame()"
+			>
+				{{ buttonText }}
+			</button>
+			<button
+				id="select-players"
+				@click="selectPlayers()"
+			>
+				Select Players
+			</button>
 		</div>
 	</div>
-	<Result v-if="resultMessage" :message="resultMessage" :p1Choice="player1Choice" :p2Choice="player2Choice" @close="clearData" />
+	<Result
+		v-if="resultMessage"
+		:message="resultMessage"
+		:p1Choice="player1Choice"
+		:p2Choice="player2Choice"
+		@close="clearData"
+	/>
 </template>
 
 <style lang="postcss" scoped>

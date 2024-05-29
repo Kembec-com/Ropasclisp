@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-	import { defineAsyncComponent, ref, computed } from "vue";
+	import { computed, defineAsyncComponent, ref } from "vue";
+
 	import type Result from "./Game/interfaces/ResultInterface";
+
 	const StartGame = defineAsyncComponent(() => import("./Game/components/StartGameComponent.vue"));
 	const PlayGame = defineAsyncComponent(() => import("./Game/components/PlayGameComponent.vue"));
 	const LastResults = defineAsyncComponent(() => import("./Game/components/LastResultsComponent.vue"));
@@ -15,6 +17,7 @@
 		if (!result.value) {
 			return false;
 		}
+
 		return JSON.parse(result.value);
 	});
 
@@ -23,15 +26,27 @@
 		players.value = e;
 		component.value = "PlayGame";
 	}
-	function changeResult() : void {
-		result.value = localStorage.result
+	function changeResult(): void {
+		result.value = localStorage.result;
 	}
 </script>
 <template>
 	<section id="game">
-		<StartGame v-if="component == 'StartGame'" @selectPlayers="selectPlayers" />
-		<PlayGame v-else-if="component == 'PlayGame'" :players="players" @changeResult="changeResult" @selectPlayers="component = 'StartGame'"/>
-		<LastResults v-if="lastResults" :lastResults="lastResults" @changeResult="changeResult" />
+		<StartGame
+			v-if="component == 'StartGame'"
+			@selectPlayers="selectPlayers"
+		/>
+		<PlayGame
+			v-else-if="component == 'PlayGame'"
+			:players="players"
+			@changeResult="changeResult"
+			@selectPlayers="component = 'StartGame'"
+		/>
+		<LastResults
+			v-if="lastResults"
+			:lastResults="lastResults"
+			@changeResult="changeResult"
+		/>
 	</section>
 </template>
 <style lang="postcss" scoped>
