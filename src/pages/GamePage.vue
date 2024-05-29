@@ -85,7 +85,7 @@
 	}
 
 	.help {
-		@apply fixed top-5 right-5 drop-shadow-md bg-white hover:bg-slate-100 transition-colors text-slate-900 p-3 leading-none;
+		@apply fixed top-5 right-5 drop-shadow-md bg-slate-950 hover:rounded-lg transition-all text-slate-50 p-3 leading-none;
 	}
 
 	.slide-fade-enter-active,
