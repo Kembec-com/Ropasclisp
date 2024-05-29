@@ -89,16 +89,15 @@
 	}
 	function changeName(event: Event | null | undefined, player: 1 | 2): void {
 		if (!event || (player === 2 && prop.players !== 2)) {
-			// if there is no event or if it is player 2's turn and there is only 1 player
 			return;
 		}
-		const playerName = (event.target as HTMLInputElement).textContent; // get the player name from the event target
+		const playerName = (event.target as HTMLInputElement).textContent;
 		if (player === 1) {
-			player1Name.value = playerName ?? "Player 1";
+			player1Name.value = (playerName ?? "Player 1").trim();
 
 			return;
 		}
-		player2Name.value = playerName ?? "Player 2";
+		player2Name.value = (playerName ?? "Player 2").trim();
 	}
 	function saveResult(): void {
 		// saves the game result to local storage
@@ -135,85 +134,105 @@
 </script>
 
 <template>
-	<div class="play-game">
-		<div
-			class="player_1"
-			:class="turn === 1 ? 'on' : 'off'"
-		>
-			<h1
-				id="player_1"
-				contenteditable="true"
-				@input="changeName($event, 1)"
-			>
-				{{ player1Name }}
-			</h1>
+	<section>
+		<div class="play-game">
 			<div
-				class="selected-hand"
-				:show="p1choice"
+				class="player_1"
+				:class="turn === 1 ? 'on' : 'off'"
 			>
-				<font-awesome-icon :icon="'fa-regular ' + (p1choice ?? 'fa-hand-peace')" />
-			</div>
-			<div class="hands">
-				<button
-					:content="h"
-					v-for="(h, n) in Choice"
-					:key="n"
-					@click="player1Choice = h"
+				<h2
+					id="player_1"
+					contenteditable="true"
+					@input="changeName($event, 1)"
 				>
-					<font-awesome-icon :icon="'fa-regular ' + h" />
+					{{ player1Name || "??" }}
+				</h2>
+				<div
+					class="selected-hand"
+					:show="p1choice"
+				>
+					<Transition
+						name="hand"
+						mode="out-in"
+					>
+						<font-awesome-icon
+							:key="p1choice"
+							:icon="'fa-regular ' + (p1choice ?? 'fa-hand-peace')"
+						/>
+					</Transition>
+				</div>
+				<div class="hands">
+					<button
+						v-for="(h, n) in Choice"
+						:class="player1Choice === h ? 'on' : undefined"
+						:key="n"
+						@click="player1Choice = h"
+					>
+						<font-awesome-icon :icon="'fa-regular ' + h" />
+					</button>
+				</div>
+			</div>
+			<div
+				class="player_2"
+				:class="turn === 2 ? 'on' : 'off'"
+			>
+				<h2 v-if="prop.players === 1">BOT</h2>
+				<h2
+					v-else
+					id="player_2"
+					:contenteditable="players === 2"
+					@input="changeName($event, 2)"
+				>
+					{{ player2Name || "??" }}
+				</h2>
+				<div
+					class="selected-hand"
+					:show="p2choice"
+				>
+					<Transition
+						name="hand"
+						mode="out-in"
+					>
+						<font-awesome-icon
+							:key="p2choice"
+							:icon="'fa-regular ' + (p2choice ?? 'fa-hand-peace')"
+						/>
+					</Transition>
+				</div>
+				<div class="hands">
+					<button
+						v-for="(h, n) in Choice"
+						:class="player2Choice === h ? 'on' : undefined"
+						:key="n"
+						@click="player2Name ? (player2Choice = h) : null"
+					>
+						<font-awesome-icon :icon="'fa-regular ' + h" />
+					</button>
+				</div>
+			</div>
+			<div class="footer">
+				<button
+					id="play-game"
+					@click="startGame()"
+				>
+					{{ buttonText }}
+				</button>
+				<button
+					id="select-players"
+					@click="selectPlayers()"
+				>
+					Select Players
 				</button>
 			</div>
 		</div>
-		<div
-			class="player_2"
-			:class="turn === 2 ? 'on' : 'off'"
-		>
-			<h1
-				id="player_2"
-				:contenteditable="players === 2"
-				@input="changeName($event, 2)"
-			>
-				{{ player2Name }}
-			</h1>
-			<div
-				class="selected-hand"
-				:show="p2choice"
-			>
-				<font-awesome-icon :icon="'fa-regular ' + (p2choice ?? 'fa-hand-peace')" />
-			</div>
-			<div class="hands">
-				<button
-					:content="h"
-					v-for="(h, n) in Choice"
-					:key="n"
-					@click="player2Name ? (player2Choice = h) : null"
-				>
-					<font-awesome-icon :icon="'fa-regular ' + h" />
-				</button>
-			</div>
-		</div>
-		<div class="footer">
-			<button
-				id="play-game"
-				@click="startGame()"
-			>
-				{{ buttonText }}
-			</button>
-			<button
-				id="select-players"
-				@click="selectPlayers()"
-			>
-				Select Players
-			</button>
-		</div>
-	</div>
-	<Result
-		v-if="resultMessage"
-		:message="resultMessage"
-		:p1Choice="player1Choice"
-		:p2Choice="player2Choice"
-		@close="clearData"
-	/>
+		<Result
+			v-if="resultMessage"
+			:message="resultMessage"
+			:p1Choice="player1Choice"
+			:p2Choice="player2Choice"
+			@close="clearData"
+		/>
+	</section>
 </template>
 
 <style lang="postcss" scoped>
@@ -223,8 +242,9 @@
 	.play-game > * {
 		@apply relative flex flex-col;
 	}
-	.play-game > * > h1 {
-		@apply mb-auto flex justify-center p-5 text-center text-3xl lg:text-6xl;
+	.play-game > * > h2 {
+		@apply p-3 border-2 border-slate-50;
+		@apply mb-auto inline-block justify-center text-center text-3xl lg:text-6xl outline-none truncate;
 	}
 	.play-game > * > span {
 		@apply mx-auto mt-10 flex justify-center rounded-lg bg-emerald-500 px-5 py-1.5 text-2xl text-white;
@@ -248,22 +268,44 @@
 	}
 
 	.hands {
-		@apply mt-7 grid grid-cols-2 gap-x-0 gap-y-7 p-3 text-4xl lg:mt-16 lg:grid-cols-5 lg:gap-x-5 lg:p-10 lg:text-5xl;
+		@apply mt-7 grid grid-cols-2 gap-x-0 gap-y-7 p-3 text-4xl lg:mt-16 lg:grid-cols-5 lg:gap-x-5 lg:p-10 lg:text-5xl drop-shadow-md;
 	}
-	.hands > * {
-		@apply mx-auto flex justify-center hover:opacity-80;
+	.hands > button {
+		@apply mx-auto flex justify-center relative;
+	}
+	.hands > button::before {
+		@apply content-["▼"] opacity-0 transition-all text-amber-400 duration-300 text-base absolute bottom-[110%];
+	}
+	.hands > button.on::before,
+	.hands > button:hover::before {
+		@apply opacity-100;
 	}
 
 	.footer {
 		@apply col-span-full flex flex-col space-y-5;
 	}
 	.footer > button {
-		@apply mx-auto rounded-lg px-10 font-bold drop-shadow-md;
+		@apply mx-auto rounded-sm px-10 font-bold drop-shadow-md;
 	}
 	#play-game {
 		@apply bg-white py-3 text-3xl text-slate-900 hover:bg-white/90 lg:text-4xl;
 	}
 	#select-players {
 		@apply border-2 border-white py-2 text-sm tracking-wider text-white hover:border-white/80 lg:text-base;
+	}
+
+	.hand-enter-active,
+	.hand-leave-active {
+		transition: all 0.2s ease-in-out;
+	}
+
+	.hand-enter-from,
+	.hand-leave-to {
+		opacity: 0;
+	}
+
+	.hand-enter-to,
+	.hand-leave-from {
+		opacity: 1;
 	}
 </style>

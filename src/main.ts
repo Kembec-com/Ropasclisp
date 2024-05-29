@@ -10,7 +10,7 @@ import {
 	faHandScissors,
 	faHandSpock,
 } from "@fortawesome/free-regular-svg-icons";
-import { faEraser } from "@fortawesome/free-solid-svg-icons";
+import { faEraser, faQuestion } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { type Component, createApp } from "vue";
 
@@ -18,7 +18,7 @@ import App from "./App.vue";
 import router from "./router";
 
 const app = createApp(App as Component);
-library.add(faHandRock, faHandPaper, faHandScissors, faHandLizard, faHandSpock, faHandPeace, faEraser);
+library.add(faHandRock, faHandPaper, faHandScissors, faHandLizard, faHandSpock, faHandPeace, faEraser, faQuestion);
 
 // Components
 app.component("font-awesome-icon", FontAwesomeIcon);

@@ -46,7 +46,7 @@
 	}
 </script>
 <template>
-	<section id="result">
+	<aside id="result">
 		<div class="content">
 			<div class="p1">
 				<font-awesome-icon :icon="'fa-regular ' + p1Choice" />
@@ -57,10 +57,10 @@
 			</div>
 			<div class="message">{{ message }}</div>
 		</div>
-	</section>
+	</aside>
 </template>
 <style lang="postcss" scoped>
-	section {
+	aside {
 		@apply fixed top-0 left-0 z-50 h-screen w-screen bg-black/50;
 	}
 	.content {

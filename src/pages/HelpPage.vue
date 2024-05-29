@@ -116,9 +116,10 @@
 		</div>
 		<RouterLink
 			class="play-game"
-			to="/game"
-			>Play Game</RouterLink
+			to="/"
 		>
+			Play Game
+		</RouterLink>
 	</div>
 </template>
 <style lang="postcss" scoped>
@@ -147,7 +148,7 @@
 	}
 
 	.title {
-		@apply mx-auto  mt-10 rounded-lg px-5 py-3 tracking-wider text-white;
+		@apply mx-auto  mt-10 rounded-sm px-5 py-3 tracking-wider text-white;
 	}
 	.title.win {
 		@apply bg-emerald-500;
@@ -157,7 +158,7 @@
 	}
 
 	.wins-to {
-		@apply grid grid-cols-2 justify-center gap-5 border-b border-white/10 px-10 pb-20 text-6xl lg:px-[15vw];
+		@apply grid grid-cols-2 justify-center gap-5 border-b border-white/10 px-10 pb-20 text-6xl lg:px-[15dvw];
 	}
 	.wins-to > h2 {
 		@apply col-span-full justify-center p-10 text-center text-4xl;
@@ -173,6 +174,6 @@
 	}
 
 	.play-game {
-		@apply mx-auto mt-10 rounded-lg bg-amber-500 px-10 py-5 text-4xl font-bold text-white drop-shadow-md hover:bg-amber-400 lg:mt-20 lg:text-5xl;
+		@apply mx-auto mt-10 rounded-sm bg-amber-500 px-10 py-5 text-4xl font-bold text-white drop-shadow-md hover:bg-amber-400 lg:mt-20 lg:text-5xl;
 	}
 </style>

@@ -9,10 +9,13 @@
 	}
 
 	//Prop
-	// const prop = defineProps<Props>();
+	const props = defineProps<Props>();
 
 	//Emit
 	const emit = defineEmits<Emits>();
+
+	//Data
+	const lastResults = props.lastResults;
 
 	// Methods
 	function clearLocalStorage() {
@@ -21,7 +24,7 @@
 	}
 </script>
 <template>
-	<div class="last-results">
+	<section class="last-results">
 		<div class="title">
 			<b>Last Results</b>
 			<button
@@ -47,11 +50,11 @@
 			</div>
 			<div class="message">{{ l.message }}</div>
 		</div>
-	</div>
+	</section>
 </template>
 <style lang="postcss" scoped>
 	.last-results {
-		@apply mt-20 flex flex-col border-t pt-10 text-3xl lg:text-4xl;
+		@apply mt-20 flex flex-col border-t border-white/10 !pt-10 text-3xl lg:text-4xl;
 	}
 	.last-results > .title {
 		@apply flex flex-nowrap space-x-5 mb-10 px-3 lg:px-5;
@@ -69,7 +72,7 @@
 		@apply drop-shadow-md;
 	}
 	.message {
-		@apply col-span-full mx-auto justify-center rounded-lg border-2 px-3 py-1.5 text-center font-bold tracking-wide antialiased drop-shadow-md;
+		@apply col-span-full mx-auto justify-center rounded-sm border-2 px-3 py-1.5 text-center font-bold tracking-wide antialiased drop-shadow-md;
 	}
 	.icon {
 		@apply text-4xl;

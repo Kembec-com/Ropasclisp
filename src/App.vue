@@ -9,6 +9,7 @@
 </template>
 <style lang="postcss" scoped>
 	main {
-		@apply my-auto flex flex-col;
+		@apply lg:h-[calc(100dvh-6.5rem)] h-[calc(100dvh-5rem)];
+		@apply flex flex-col overflow-auto;
 	}
 </style>
