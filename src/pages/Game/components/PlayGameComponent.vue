@@ -151,10 +151,7 @@
 					class="selected-hand"
 					:show="p1choice"
 				>
-					<Transition
-						name="hand"
-						mode="out-in"
-					>
+					<Transition name="hand">
 						<font-awesome-icon
 							:key="p1choice"
 							:icon="'fa-regular ' + (p1choice ?? 'fa-hand-peace')"
@@ -274,7 +271,7 @@
 		@apply mx-auto flex justify-center relative;
 	}
 	.hands > button::before {
-		@apply content-["▼"] opacity-0 transition-all text-amber-400 duration-300 text-base absolute bottom-[110%];
+		@apply content-["▼"] opacity-0 transition-all text-amber-400 duration-200 text-base absolute bottom-[110%];
 	}
 	.hands > button.on::before,
 	.hands > button:hover::before {
@@ -300,16 +297,22 @@
 
 	.hand-enter-active,
 	.hand-leave-active {
-		transition: all 0.2s ease-in-out;
+		transition: all 0.2s ease;
 	}
 
-	.hand-enter-from,
+	.hand-enter-from {
+		@apply !translate-x-full;
+	}
+
+	.hand-enter-to {
+		@apply -translate-x-1/2;
+	}
+
+	.hand-leave {
+		@apply -translate-x-1/2;
+	}
+
 	.hand-leave-to {
-		opacity: 0;
-	}
-
-	.hand-enter-to,
-	.hand-leave-from {
-		opacity: 1;
+		@apply !-translate-x-full !left-0;
 	}
 </style>

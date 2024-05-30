@@ -2,7 +2,7 @@
 	import { Choice } from "./Game/constants/ChoiceEnum";
 </script>
 <template>
-	<div class="rules">
+	<section class="rules">
 		<h1>Rules</h1>
 		<!-- Rock -->
 		<div class="winner">
@@ -120,11 +120,11 @@
 		>
 			Play Game
 		</RouterLink>
-	</div>
+	</section>
 </template>
 <style lang="postcss" scoped>
 	.rules {
-		@apply flex h-full w-full flex-col pb-20;
+		@apply flex w-full flex-col !mb-20;
 	}
 	h1 {
 		@apply my-7 flex justify-center text-center text-6xl font-bold tracking-wider;
@@ -174,6 +174,6 @@
 	}
 
 	.play-game {
-		@apply mx-auto mt-10 rounded-sm bg-amber-500 px-10 py-5 text-4xl font-bold text-white drop-shadow-md hover:bg-amber-400 lg:mt-20 lg:text-5xl;
+		@apply flex mx-auto mt-10 rounded-sm bg-amber-500 px-10 py-5 text-4xl font-bold text-white drop-shadow-md hover:bg-amber-400 lg:mt-20 lg:text-5xl;
 	}
 </style>
