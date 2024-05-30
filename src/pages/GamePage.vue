@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-	import { computed, defineAsyncComponent, ref } from "vue";
+	import { computed, defineAsyncComponent, onBeforeMount, ref, watch } from "vue";
 
 	import PlayGame from "./Game/components/PlayGameComponent.vue";
 	import StartGame from "./Game/components/StartGameComponent.vue";
@@ -42,6 +42,20 @@
 	function changeResult(): void {
 		result.value = localStorage.result;
 	}
+
+	// Listeners
+	watch(page, (value) => {
+		localStorage.setItem("page", value);
+	});
+
+	// Mounted
+	onBeforeMount(() => {
+		const p = localStorage.getItem("page");
+
+		if (p) {
+			page.value = p;
+		}
+	});
 </script>
 <template>
 	<article id="game">

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-	import { computed, onMounted, ref } from "vue";
+	import { computed, onBeforeMount, onMounted, ref } from "vue";
 
 	import { Game } from "../classes/GameClass";
 	import { Choice } from "../constants/ChoiceEnum";
@@ -26,15 +26,22 @@
 	const player1Choice = ref<Choice>(Choice.Rock);
 	const player2Choice = ref<Choice>();
 	const resultMessage = ref<string>();
+	const firstTime = ref<boolean>(false);
 	const turn = ref<1 | 2>(1);
 
 	// Mounted
 	onMounted(() => {
 		if (prop.players === 2) {
-			// if there are 2 players
-			player2Name.value = "Player 2"; // set player 2's name
+			player2Name.value = "Player 2";
 		}
-		focusAndSelect("player_1"); // focus on player 1's input field
+		focusAndSelect("player_1");
+	});
+	onBeforeMount(() => {
+		const ft = localStorage.getItem("firstTime");
+
+		if (ft) {
+			firstTime.value = true;
+		}
 	});
 
 	// Computed
@@ -63,6 +70,11 @@
 
 	// Methods
 	function startGame(): void {
+		if (!firstTime.value) {
+			firstTime.value = true;
+			localStorage.setItem("firstTime", "true");
+		}
+
 		if (prop.players === 2 && turn.value === 1) {
 			// if there are 2 players and it is player 1's turn
 			turn.value = 2;
@@ -116,17 +128,28 @@
 		localStorage.result = JSON.stringify(result);
 	}
 	function focusAndSelect(id: string): void {
-		//  focuses on and selects an input field
+		if (firstTime.value) {
+			return;
+		}
+
 		const element = document.getElementById(id) as HTMLHeadingElement;
 		if (!element) {
 			return;
 		}
+
+		element.setAttribute("readonly", "true");
 		element.focus();
+		element.removeAttribute("readonly");
+
 		const range = document.createRange();
 		range.selectNodeContents(element);
 		const selection = window.getSelection();
 		selection?.removeAllRanges();
 		selection?.addRange(range);
+
+		setTimeout(() => {
+			selection?.removeAllRanges();
+		}, 3000);
 	}
 	function selectPlayers(): void {
 		emit("selectPlayers");
