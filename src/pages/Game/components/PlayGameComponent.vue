@@ -281,6 +281,10 @@
 		@apply opacity-100;
 	}
 
+	.off .hands > button::before {
+		@apply hidden;
+	}
+
 	.footer {
 		@apply col-span-full flex flex-col;
 	}
